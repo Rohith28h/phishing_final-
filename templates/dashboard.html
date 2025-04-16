@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Phishing URL Detector{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h1>Welcome, {{ username }}!</h1>
+    <p>Here's an overview of your phishing detection activity</p>
+</div>
+
+<div class="dashboard-stats">
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="stat-content">
+            <div class="stat-number">{{ stats.total }}</div>
+            <div class="stat-label">Total Checks</div>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon safe">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-content">
+            <div class="stat-number">{{ stats.safe }}</div>
+            <div class="stat-label">Safe URLs</div>
+        </div>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon danger">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="stat-content">
+            <div class="stat-number">{{ stats.total - stats.safe }}</div>
+            <div class="stat-label">Phishing URLs</div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-actions">
+    <a href="{{ url_for('check') }}" class="btn-primary">
+        <i class="fas fa-search"></i> Check New URL
+    </a>
+    <a href="{{ url_for('history') }}" class="btn-secondary">
+        <i class="fas fa-history"></i> View Full History
+    </a>
+</div>
+
+<div class="dashboard-section">
+    <div class="section-header">
+        <h2>Recent URL Checks</h2>
+    </div>
+    
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>URL</th>
+                    <th>Result</th>
+                    <th>Confidence</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if recent_checks %}
+                    {% for check in recent_checks %}
+                        <tr>
+                            <td class="url-cell" title="{{ check.url }}">{{ check.url }}</td>
+                            <td>
+                                {% if check.is_safe %}
+                                    <span class="badge badge-success">Safe</span>
+                                {% else %}
+                                    <span class="badge badge-danger">Phishing</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ (check.confidence * 100) | round }}%</td>
+                            <td>{{ check.checked_at }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="empty-table">No URL checks yet. <a href="{{ url_for('check') }}">Check your first URL</a></td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

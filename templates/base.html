@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Phishing URL Detector{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <a href="{{ url_for('index') }}">
+                    <i class="fas fa-shield-alt"></i> Phishing Detector
+                </a>
+            </div>
+            <div class="navbar-menu" id="navbar-menu">
+                <a href="{{ url_for('index') }}" class="nav-item">Home</a>
+                <a href="{{ url_for('check') }}" class="nav-item">Check URL</a>
+                <a href="{{ url_for('about') }}" class="nav-item">About</a>
+                {% if is_logged_in %}
+                    <div class="dropdown">
+                        <button class="dropdown-trigger" id="user-dropdown-trigger">
+                            <i class="fas fa-user-circle"></i> {{ username }}
+                            <i class="fas fa-caret-down"></i>
+                        </button>
+                        <div class="dropdown-menu" id="user-dropdown-menu">
+                            <a href="{{ url_for('dashboard') }}" class="dropdown-item">
+                                <i class="fas fa-gauge"></i> Dashboard
+                            </a>
+                            <a href="{{ url_for('history') }}" class="dropdown-item">
+                                <i class="fas fa-history"></i> History
+                            </a>
+                            <a href="{{ url_for('profile') }}" class="dropdown-item">
+                                <i class="fas fa-user"></i> Profile
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{{ url_for('logout') }}" class="dropdown-item">
+                                <i class="fas fa-right-from-bracket"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="nav-item">Login</a>
+                    <a href="{{ url_for('register') }}" class="nav-item btn-primary">Register</a>
+                {% endif %}
+            </div>
+            <div class="navbar-toggle" id="navbar-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+
+        <div id="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            <i class="fas fa-{% if category == 'success' %}check-circle{% else %}exclamation-circle{% endif %}"></i>
+                            <div>
+                                <p>{{ message }}</p>
+                            </div>
+                            <button class="alert-close">&times;</button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <main class="page-transition">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer>
+            <p>&copy; <span id="current-year"></span> Phishing Detector. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Set current year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Mobile menu toggle
+        var navbarToggle = document.getElementById('navbar-toggle');
+        var navbarMenu = document.getElementById('navbar-menu');
+        
+        if (navbarToggle) {
+            navbarToggle.addEventListener('click', function() {
+                navbarMenu.classList.toggle('active');
+            });
+        }
+        
+        // Dropdown toggle
+        var dropdownTrigger = document.getElementById('user-dropdown-trigger');
+        var dropdownMenu = document.getElementById('user-dropdown-menu');
+        
+        if (dropdownTrigger && dropdownMenu) {
+            dropdownTrigger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var dropdown = dropdownTrigger.parentElement;
+                dropdown.classList.toggle('active');
+            });
+        }
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function() {
+            var dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(function(dropdown) {
+                dropdown.classList.remove('active');
+            });
+        });
+        
+        // Alert close buttons
+        var alertCloseButtons = document.querySelectorAll('.alert-close');
+        
+        alertCloseButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var alert = button.parentElement;
+                alert.style.opacity = '0';
+                setTimeout(function() {
+                    alert.style.display = 'none';
+                }, 300);
+            });
+        });
+
+        // Add page transition effect
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation class to main content
+            const mainContent = document.querySelector('main');
+            if (mainContent) {
+                mainContent.classList.add('page-transition');
+            }
+        });
+    </script>
+    
+    {% block scripts %}{% endblock %}
+</body>
+</html>

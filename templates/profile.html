@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - Phishing URL Detector{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Your Profile</h1>
+    <p>Manage your account information</p>
+</div>
+
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="profile-info">
+                <h2>{{ user.username }}</h2>
+                <p>{{ user.email }}</p>
+            </div>
+        </div>
+        
+        <div class="profile-stats">
+            <div class="profile-stat">
+                <div class="stat-label">Member Since</div>
+                <div class="stat-value">{{ user.created_at.split(' ')[0] }}</div>
+            </div>
+            <div class="profile-stat">
+                <div class="stat-label">Total URL Checks</div>
+                <div class="stat-value">{{ total_checks }}</div>
+            </div>
+        </div>
+        
+        <div class="profile-actions">
+            <a href="{{ url_for('dashboard') }}" class="btn-secondary">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="{{ url_for('history') }}" class="btn-secondary">
+                <i class="fas fa-history"></i> History
+            </a>
+        </div>
+    </div>
+    
+    <div class="profile-section">
+        <h3>Account Settings</h3>
+        <p class="text-muted">Account settings will be available in a future update.</p>
+        
+        <div class="form-actions">
+            <button class="btn-outline" disabled>
+                <i class="fas fa-key"></i> Change Password
+            </button>
+            <button class="btn-outline" disabled>
+                <i class="fas fa-envelope"></i> Update Email
+            </button>
+        </div>
+    </div>
+    
+    <div class="profile-section danger-zone">
+        <h3>Danger Zone</h3>
+        <p class="text-muted">These actions are irreversible. Please be careful.</p>
+        
+        <div class="form-actions">
+            <button class="btn-danger" disabled>
+                <i class="fas fa-trash-alt"></i> Delete Account
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

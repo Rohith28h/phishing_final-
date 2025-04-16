@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing URL Detector</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="public/placeholder-logo.svg" alt="Phishing Protection Logo" class="logo">
+            </div>
+            <h1><i class="fas fa-shield-alt"></i> Phishing URL Detector</h1>
+            <p class="subtitle">Check if a URL is legitimate or a potential phishing attempt using advanced machine learning.</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-link"></i> URL Analysis</h2>
+                    <p>Enter a URL to check if it's legitimate or potentially malicious.</p>
+                </div>
+                <div class="card-content">
+                    <form id="url-form">
+                        <div class="form-group">
+                            <label for="url">URL to check</label>
+                            <div class="input-group">
+                                <input type="text" id="url" placeholder="Enter a URL (e.g., example.com)" required>
+                                <button type="submit" id="analyze-btn">
+                                    <span class="btn-text">Analyze</span>
+                                    <span class="btn-loading hidden">
+                                        <i class="fas fa-spinner fa-spin"></i> Analyzing
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="error-message" class="alert alert-danger hidden">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div>
+                            <h4>Error</h4>
+                            <p id="error-text"></p>
+                        </div>
+                    </div>
+
+                    <div id="result-container" class="hidden">
+                        <div id="result-alert" class="alert">
+                            <i id="result-icon" class="fas"></i>
+                            <div>
+                                <h4 id="result-title"></h4>
+                                <p id="result-description"></p>
+                            </div>
+                        </div>
+
+                        <div class="tabs">
+                            <div class="tab-list">
+                                <button class="tab-trigger active" data-tab="summary">Summary</button>
+                                <button class="tab-trigger" data-tab="models">Model Results</button>
+                                <button class="tab-trigger" data-tab="features">URL Features</button>
+                            </div>
+
+                            <div id="summary-tab" class="tab-content active">
+                                <div class="summary-item">
+                                    <span class="label">Confidence Score:</span>
+                                    <div class="value-with-bar">
+                                        <span id="confidence-score"></span>
+                                        <div class="progress-bar">
+                                            <div id="confidence-bar" class="progress-fill"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">URL:</span>
+                                    <span id="summary-url" class="value"></span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="label">Analysis Date:</span>
+                                    <span id="analysis-date" class="value"></span>
+                                </div>
+                            </div>
+
+                            <div id="models-tab" class="tab-content">
+                                <div class="model-item">
+                                    <span class="label">Random Forest:</span>
+                                    <span id="rf-result" class="badge"></span>
+                                </div>
+                                <div class="model-item">
+                                    <span class="label">Support Vector Machine:</span>
+                                    <span id="svm-result" class="badge"></span>
+                                </div>
+                                <div class="model-item">
+                                    <span class="label">Logistic Regression:</span>
+                                    <span id="lr-result" class="badge"></span>
+                                </div>
+                            </div>
+
+                            <div id="features-tab" class="tab-content">
+                                <div id="features-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <p>Powered by ML models: Random Forest, SVM, and Logistic Regression</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; <span id="current-year"></span> Phishing Detector. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

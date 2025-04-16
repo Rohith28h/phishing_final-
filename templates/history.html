@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}History - Phishing URL Detector{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>URL Check History</h1>
+    <p>View all your previous URL checks</p>
+</div>
+
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>URL</th>
+                <th>Result</th>
+                <th>Confidence</th>
+                <th>Random Forest</th>
+                <th>SVM</th>
+                <th>Logistic Regression</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if checks %}
+                {% for check in checks %}
+                    <tr>
+                        <td class="url-cell" title="{{ check.url }}">{{ check.url }}</td>
+                        <td>
+                            {% if check.is_safe %}
+                                <span class="badge badge-success">Safe</span>
+                            {% else %}
+                                <span class="badge badge-danger">Phishing</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ (check.confidence * 100) | round }}%</td>
+                        <td>
+                            {% if check.rf_result %}
+                                <span class="badge badge-danger">Phishing</span>
+                            {% else %}
+                                <span class="badge badge-success">Safe</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if check.svm_result %}
+                                <span class="badge badge-danger">Phishing</span>
+                            {% else %}
+                                <span class="badge badge-success">Safe</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if check.lr_result %}
+                                <span class="badge badge-danger">Phishing</span>
+                            {% else %}
+                                <span class="badge badge-success">Safe</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ check.checked_at }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="7" class="empty-table">No URL checks yet. <a href="{{ url_for('check') }}">Check your first URL</a></td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

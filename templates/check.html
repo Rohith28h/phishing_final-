@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Check URL - Phishing URL Detector{% endblock %}
+
+{% block content %}
+<div class="page-header page-transition">
+    <h1>Check a URL</h1>
+    <p>Enter a URL to analyze it for potential phishing threats</p>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2><i class="fas fa-link"></i> URL Analysis</h2>
+        <p>Our machine learning models will analyze the URL and determine if it's safe or potentially malicious.</p>
+    </div>
+    <div class="card-content">
+        <form method="POST" action="{{ url_for('check') }}" class="url-form" id="url-check-form">
+            <div class="form-group">
+                <label for="url">URL to check</label>
+                <div class="input-group">
+                    <input type="text" id="url" name="url" placeholder="Enter a URL (e.g., example.com)" required>
+                    <button type="submit" class="btn-primary" id="analyze-btn">
+                        <span id="btn-text"><i class="fas fa-search"></i> Analyze</span>
+                        <span id="btn-loading" class="hidden">
+                            <i class="fas fa-spinner fa-spin"></i> Analyzing
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="info-section">
+    <h3>How It Works</h3>
+    <div class="info-grid">
+        <div class="info-card">
+            <div class="info-number">1</div>
+            <div class="info-content">
+                <h4>Enter URL</h4>
+                <p>Input any URL you want to check for phishing characteristics.</p>
+            </div>
+        </div>
+        
+        <div class="info-card">
+            <div class="info-number">2</div>
+            <div class="info-content">
+                <h4>Feature Extraction</h4>
+                <p>Our system extracts over 15 different features from the URL.</p>
+            </div>
+        </div>
+        
+        <div class="info-card">
+            <div class="info-number">3</div>
+            <div class="info-content">
+                <h4>ML Analysis</h4>
+                <p>Three different machine learning models analyze the URL features.</p>
+            </div>
+        </div>
+        
+        <div class="info-card">
+            <div class="info-number">4</div>
+            <div class="info-content">
+                <h4>Results</h4>
+                <p>Get detailed results showing if the URL is safe or potentially malicious.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('url-check-form');
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const btnText = document.getElementById('btn-text');
+        const btnLoading = document.getElementById('btn-loading');
+        
+        if (form) {
+            form.addEventListener('submit', function() {
+                // Show loading state
+                btnText.classList.add('hidden');
+                btnLoading.classList.remove('hidden');
+                analyzeBtn.disabled = true;
+                
+                // Allow the form to submit
+                return true;
+            });
+        }
+    });
+</script>
+{% endblock %}

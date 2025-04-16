@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero">
+    <div class="hero-content">
+        <h1>Protect Yourself from Phishing Attacks</h1>
+        <p class="subtitle">
+            Our advanced machine learning algorithms analyze URLs in real-time to detect potential phishing attempts.
+            Stay safe online with our powerful phishing detection tool.
+        </p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('check') }}" class="btn-primary">
+                <i class="fas fa-search"></i> Check a URL
+            </a>
+            {% if not is_logged_in %}
+            <a href="{{ url_for('register') }}" class="btn-secondary">
+                <i class="fas fa-user-plus"></i> Create an Account
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="hero-image">
+        <img src="{{ url_for('static', filename='img/phishing-protection.svg') }}" alt="Phishing Protection">
+    </div>
+</div>
+
+<div class="features">
+    <h2>Why Choose Our Phishing Detector?</h2>
+    
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-robot"></i>
+            </div>
+            <h3>Advanced ML Models</h3>
+            <p>Powered by three state-of-the-art machine learning algorithms: Random Forest, SVM, and Logistic Regression.</p>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <h3>Real-time Analysis</h3>
+            <p>Get instant results with our high-performance backend that analyzes URLs in milliseconds.</p>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <h3>Detailed Reports</h3>
+            <p>View comprehensive analysis reports with confidence scores and feature breakdowns.</p>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-history"></i>
+            </div>
+            <h3>Check History</h3>
+            <p>Create an account to save your URL check history and track suspicious websites.</p>
+        </div>
+    </div>
+</div>
+
+<div class="cta-section">
+    <div class="cta-content">
+        <h2>Ready to check a suspicious URL?</h2>
+        <p>Our tool is free to use. Enter any URL and get an instant analysis.</p>
+        <a href="{{ url_for('check') }}" class="btn-primary">Check URL Now</a>
+    </div>
+</div>
+
+<div class="stats-section">
+    <div class="stat-card">
+        <div class="stat-number">99.8%</div>
+        <div class="stat-label">Detection Accuracy</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">3</div>
+        <div class="stat-label">ML Models</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">15+</div>
+        <div class="stat-label">URL Features Analyzed</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Availability</div>
+    </div>
+</div>
+{% endblock %}

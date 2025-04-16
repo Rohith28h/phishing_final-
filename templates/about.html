@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}About - Phishing URL Detector{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>About Phishing Detector</h1>
+    <p>Learn about our phishing detection technology and how it works</p>
+</div>
+
+<div class="about-container">
+    <div class="about-section">
+        <h2>What is Phishing?</h2>
+        <p>
+            Phishing is a type of cyber attack where attackers disguise themselves as trustworthy entities to steal 
+            sensitive information such as usernames, passwords, credit card details, or other personal data. 
+            These attacks often come in the form of emails, messages, or websites that appear legitimate but are 
+            actually fraudulent.
+        </p>
+        <p>
+            Phishing websites often mimic legitimate sites, making them difficult to identify without proper tools. 
+            Our phishing detector uses advanced machine learning algorithms to analyze URLs and identify potential 
+            phishing attempts before you visit them.
+        </p>
+    </div>
+    
+    <div class="about-section">
+        <h2>Our Technology</h2>
+        <p>
+            The Phishing URL Detector uses a combination of three powerful machine learning models to analyze URLs:
+        </p>
+        
+        <div class="tech-cards">
+            <div class="tech-card">
+                <h3>Random Forest</h3>
+                <p>
+                    A versatile ensemble learning method that operates by constructing multiple decision trees during training. 
+                    It's effective at identifying complex patterns in URL structures that may indicate phishing.
+                </p>
+            </div>
+            
+            <div class="tech-card">
+                <h3>Support Vector Machine</h3>
+                <p>
+                    A supervised learning model that analyzes data for classification. Our SVM model is trained to 
+                    distinguish between legitimate and phishing URLs based on various features.
+                </p>
+            </div>
+            
+            <div class="tech-card">
+                <h3>Logistic Regression</h3>
+                <p>
+                    A statistical model that uses a logistic function to model a binary dependent variable. 
+                    It helps identify specific features that are most indicative of phishing attempts.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="about-section">
+        <h2>Features We Analyze</h2>
+        <p>
+            Our system extracts and analyzes over 15 different features from each URL to determine if it's potentially malicious:
+        </p>
+        
+        <div class="features-grid">
+            <div class="feature-box">
+                <i class="fas fa-ruler"></i>
+                <span>URL Length</span>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-lock"></i>
+                <span>HTTPS Protocol</span>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-network-wired"></i>
+                <span>IP Address Usage</span>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-at"></i>
+                <span>@ Symbol</span>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-minus"></i>
+                <span>Dash in Domain</span>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-sitemap"></i>
+                <span>Subdomain Count</span>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-folder"></i>
+                <span>Path Depth</span>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-font"></i>
+                <span>Suspicious Words</span>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-globe"></i>
+                <span>TLD Analysis</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="about-section">
+        <h2>How to Stay Safe Online</h2>
+        <ul class="safety-tips">
+            <li>
+                <strong>Check URLs before clicking:</strong> Use our tool to verify suspicious links before visiting them.
+            </li>
+            <li>
+                <strong>Look for HTTPS:</strong> Secure websites use HTTPS and display a padlock icon in the address bar.
+            </li>
+            <li>
+                <strong>Be wary of shortened URLs:</strong> URL shorteners can hide malicious destinations.
+            </li>
+            <li>
+                <strong>Don't trust unsolicited emails:</strong> Be skeptical of unexpected emails asking for personal information.
+            </li>
+            <li>
+                <strong>Keep software updated:</strong> Ensure your browser and security software are up to date.
+            </li>
+            <li>
+                <strong>Use strong, unique passwords:</strong> Don't reuse passwords across different websites.
+            </li>
+            <li>
+                <strong>Enable two-factor authentication:</strong> Add an extra layer of security to your accounts.
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

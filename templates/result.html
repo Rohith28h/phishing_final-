@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis Result - Phishing URL Detector{% endblock %}
+
+{% block content %}
+<div class="page-header page-transition">
+    <h1>URL Analysis Result</h1>
+    <p>Detailed analysis of the submitted URL</p>
+</div>
+
+<div class="result-container">
+    <div class="result-header {{ 'safe' if result.isSafe else 'danger' }}">
+        <div class="result-icon">
+            <i class="fas {{ 'fa-check-circle' if result.isSafe else 'fa-exclamation-triangle' }}"></i>
+        </div>
+        <div class="result-title">
+            <h2>{{ 'Safe URL Detected' if result.isSafe else 'Potential Phishing Detected' }}</h2>
+            <p>
+                {% if result.isSafe %}
+                    This URL appears to be legitimate based on our analysis.
+                {% else %}
+                    This URL shows characteristics commonly associated with phishing attempts.
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    
+    <div class="result-content">
+        <div class="tabs">
+            <div class="tab-list">
+                <button class="tab-trigger active" data-tab="summary">Summary</button>
+                <button class="tab-trigger" data-tab="models">Model Results</button>
+                <button class="tab-trigger" data-tab="features">URL Features</button>
+            </div>
+
+            <div id="summary-tab" class="tab-content active">
+                <div class="summary-item">
+                    <span class="label">Confidence Score:</span>
+                    <div class="value-with-bar">
+                        <span class="{{ 'text-success' if result.isSafe else 'text-danger' }}">
+                            {{ (result.confidence * 100) | round }}%
+                        </span>
+                        <div class="progress-bar">
+                            <div class="progress-fill {{ 'bg-success' if result.isSafe else 'bg-danger' }}" 
+                                 style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="summary-item">
+                    <span class="label">URL:</span>
+                    <span class="value">{{ result.url }}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Analysis Date:</span>
+                    <span class="value">{{ now().strftime('%Y-%m-%d %H:%M:%S') }}</span>
+                </div>
+            </div>
+
+            <div id="models-tab" class="tab-content">
+                <div class="model-item">
+                    <span class="label">Random Forest:</span>
+                    <span class="badge {{ 'badge-danger' if result.modelResults.randomForest else 'badge-success' }}">
+                        {{ 'Phishing' if result.modelResults.randomForest else 'Safe' }}
+                    </span>
+                </div>
+                <div class="model-item">
+                    <span class="label">Support Vector Machine:</span>
+                    <span class="badge {{ 'badge-danger' if result.modelResults.svm else 'badge-success' }}">
+                        {{ 'Phishing' if result.modelResults.svm else 'Safe' }}
+                    </span>
+                </div>
+                <div class="model-item">
+                    <span class="label">Logistic Regression:</span>
+                    <span class="badge {{ 'badge-danger' if result.modelResults.logisticRegression else 'badge-success' }}">
+                        {{ 'Phishing' if result.modelResults.logisticRegression else 'Safe' }}
+                    </span>
+                </div>
+            </div>
+
+            <div id="features-tab" class="tab-content">
+                {% for key, value in result.features.items() %}
+                    <div class="feature-item">
+                        <span class="label">{{ key | replace('_', ' ') | title }}</span>
+                        <span class="value">
+                            {% if value is boolean %}
+                                {{ 'Yes' if value else 'No' }}
+                            {% else %}
+                                {{ value }}
+                            {% endif %}
+                        </span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="result-actions">
+        <a href="{{ url_for('check') }}" class="btn-primary">
+            <i class="fas fa-search"></i> Check Another URL
+        </a>
+        {% if is_logged_in %}
+            <a href="{{ url_for('history') }}" class="btn-secondary">
+                <i class="fas fa-history"></i> View History
+            </a>
+        {% else %}
+            <a href="{{ url_for('register') }}" class="btn-secondary">
+                <i class="fas fa-user-plus"></i> Create Account to Save Results
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate progress bar
+        setTimeout(function() {
+            var progressFill = document.querySelector('.progress-fill');
+            if (progressFill) {
+                progressFill.style.width = '{{ (result.confidence * 100) | round }}%';
+            }
+        }, 300);
+        
+        // Tab functionality
+        var tabTriggers = document.querySelectorAll('.tab-trigger');
+        var tabContents = document.querySelectorAll('.tab-content');
+
+        tabTriggers.forEach(function(trigger) {
+            trigger.addEventListener('click', function() {
+                // Remove active class from all triggers and contents
+                tabTriggers.forEach(function(t) {
+                    t.classList.remove('active');
+                });
+                tabContents.forEach(function(c) {
+                    c.classList.remove('active');
+                });
+                
+                // Add active class to clicked trigger and corresponding content
+                trigger.classList.add('active');
+                var tabId = trigger.getAttribute('data-tab');
+                var tabContent = document.getElementById(tabId + '-tab');
+                if (tabContent) {
+                    tabContent.classList.add('active');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
